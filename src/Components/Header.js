@@ -13,20 +13,24 @@ const Header = () => {
             <div className="position-sticky back">
                 <div className="list-group item list-group-flush m-3 back">
 
-                    <Link to='/manage' className="list-group-item back m-2" style={{ border: 'none' }}>
-                        <i style={{ color: 'white' }} className="fas fa-tachometer-alt fa-fb  me-3" /><span style={{ color: 'white' }}>Main dashboard</span>
+                    <Link to='/dashboard' className="list-group-item back m-2" style={{ border: 'none' }}>
+                        <i style={{ color: 'white' }} className="fas fa-tachometer-alt fa-fb  me-3" /><span style={{ color: 'white' }}>Dashboard</span>
                     </Link>
 
-                    <Link to='/library' className="list-group-item back m-2" style={{ border: 'none' }}>
-                        <i style={{ color: 'white' }} className="fas fa-chart-bar fa-fw me-3" /><span style={{ color: 'white' }}>Library</span>
+                    <Link to='/teams' className="list-group-item back m-2" style={{ border: 'none' }}>
+                        <i style={{ color: 'white' }} className="fas fa-users fa-fw me-3" /><span style={{ color: 'white' }}>My Teams</span>
                     </Link>
 
                     <Link to='/forums' className="list-group-item back m-2" style={{ border: 'none' }}>
                         <i style={{ color: 'white' }} className="fas fa-users fa-fw me-3" /><span style={{ color: 'white' }}>Forums</span>
                     </Link>
 
-                    <Link to='/home' className="list-group-item back m-2" style={{ border: 'none' }}>
-                        <i style={{ color: 'white' }} className="fas fa-users fa-fw me-3" /><span style={{ color: 'white' }}>Profile</span>
+                    <Link to='/library' className="list-group-item back m-2" style={{ border: 'none' }}>
+                        <i style={{ color: 'white' }} className="fas fa-chart-bar fa-fw me-3" /><span style={{ color: 'white' }}>Library</span>
+                    </Link>
+
+                    <Link to='/profile' className="list-group-item back m-2" style={{ border: 'none' }}>
+                        <i style={{ color: 'white' }} className="fas fa-user fa-fw me-3" /><span style={{ color: 'white' }}>Profile</span>
                     </Link>
 
 

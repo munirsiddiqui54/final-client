@@ -26,7 +26,7 @@ const Login = () => {
             console.log(error);
             toast.error('Something went wrong');
         }
-        navigate('/home')
+        navigate('/dashboard')
 
     }
     const onFailure = (res) => {

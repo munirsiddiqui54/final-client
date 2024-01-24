@@ -6,11 +6,18 @@ import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Manage from './Pages/Manage';
 import Home from './Pages/Home';
+
+import Nav from './Components/Nav';
+import Login from './Pages/Login';
+
+import Entry from './Pages/Entry';
+import Dashboard from './Pages/Dashboard';
+import Teams from './Pages/Teams';
 import Forum from './Pages/Forum';
 import Library from './Pages/Library';
-import Login from './Pages/Login';
-import Entry from './Pages/Entry';
-import Nav from './Components/Nav';
+import Profile from './Pages/Profile';
+
+
 
 
 
@@ -26,12 +33,19 @@ function App() {
       />
 
       <Routes>
-        <Route path='/manage' element={<Manage />} />
-        <Route path='/test' element={<>Test Page</>} />
         <Route path='/' element={<Entry />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/teams' element={<Teams />} />
         <Route path='/forums' element={<Forum />} />
-        <Route path='/home' element={<Home />} />
         <Route path='/library' element={<Library />} />
+        <Route path='/profile' element={<Profile />} />
+
+        {/* <Route path='/manage' element={<Manage />} /> */}
+        {/* <Route path='/test' element={<>Test Page</>} /> */}
+        
+
+        {/* <Route path='/home' element={<Home />} /> */}
+
       </Routes>
 
     </>
