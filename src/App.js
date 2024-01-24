@@ -6,16 +6,15 @@ import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Manage from './Pages/Manage';
 import Home from './Pages/Home';
-
 import Nav from './Components/Nav';
 import Login from './Pages/Login';
-
 import Entry from './Pages/Entry';
 import Dashboard from './Pages/Dashboard';
 import Teams from './Pages/Teams';
 import Forum from './Pages/Forum';
 import Library from './Pages/Library';
 import Profile from './Pages/Profile';
+import Collaboration from './Pages/Collaboration';
 
 
 
@@ -40,7 +39,7 @@ function App() {
         <Route path='/library' element={<Library />} />
         <Route path='/profile' element={<Profile />} />
 
-        {/* <Route path='/manage' element={<Manage />} /> */}
+        <Route path='/collaboration' element={<Collaboration />} />
         {/* <Route path='/test' element={<>Test Page</>} /> */}
         
 
