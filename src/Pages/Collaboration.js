@@ -13,7 +13,8 @@ import { useAuth } from './colab';
 
 const clientId = "578918890169-fo553e5vpc8aviachelgihf03foerm6n.apps.googleusercontent.com"
 const API_KEY = "AIzaSyC_LCdmrG7VaSdrGzyRw_gQ00rJNwWQbek"
-const SCOPES = "https://www.googleapis.com/auth/drive"
+const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/drive'];
+
 const DISCOVERY_DOCS = ['https://docs.googleapis.com/$discovery/rest?version=v1'];
 
 
@@ -133,6 +134,7 @@ const Collaboration = () => {
                 console.log(data)
                 console.log(data.documentId)
                 setPermissions(data.documentId)
+                postWork('https://docs.google.com/document/d/' + data.documentId + '/edit')
                 window.open('https://docs.google.com/document/d/' + data.documentId + '/edit', '_blank')
                 onSuccessDocs(data.documentId)
 
@@ -204,6 +206,7 @@ const Collaboration = () => {
             .then((data) => {
                 console.log(data.spreadsheetId)
                 setPermissions(data.spreadsheetId)
+                postWork('https://docs.google.com/spreadsheets/d/' + data.spreadsheetId + '/edit#gid=0')
                 window.open('https://docs.google.com/spreadsheets/d/' + data.spreadsheetId + '/edit#gid=0', '_blank')
                 onSuccessDocs(data.spreadsheetId)
             })
@@ -242,18 +245,22 @@ const Collaboration = () => {
 
         const result = await response.json();
         console.log(result);
+        postWork(result.htmlLink)
         gapi.client.calendar.events.patch({
             calendarId: "primary",
             eventId: result.id,
             resource: event,
             sendNotifications: true,
             conferenceDataVersion: 1
+
         }).execute(function (event) {
             console.log("Conference created for event: %s", event.htmlLink);
+
         });
     };
     function createJamboard() {
         window.open(`https://jamboard.google.com/u/0/create?title=${filename}`, '_blank');
+
     }
     const createSlides = async () => {
         try {
@@ -280,6 +287,7 @@ const Collaboration = () => {
             setPermissions(data.presentationId);
 
             // Open the new presentation in a new tab
+            postWork(`https://docs.google.com/presentation/d/${data.presentationId}/edit`)
             window.open(`https://docs.google.com/presentation/d/${data.presentationId}/edit`, '_blank');
 
             // Call your onSuccess function with the presentation ID

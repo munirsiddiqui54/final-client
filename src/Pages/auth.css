@@ -1,0 +1,16 @@
+.box {
+    width: 40%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 20px;
+    background-color: white;
+}
+
+.form-container {
+    height: 90vh;
+    width: 100%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(0deg, rgba(227, 202, 254, 0.612) 0%, white 20%, white 80%, rgba(220, 205, 236, 0.612) 100%);
+}

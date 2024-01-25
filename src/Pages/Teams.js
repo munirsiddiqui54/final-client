@@ -39,7 +39,8 @@ const Home = () => {
     e.preventDefault();
     try {
       setVisible(false)
-      const id = localStorage.getItem('userId')
+      const id = JSON.parse(localStorage.getItem('myuser'))._id
+      // alert(id)
       let resp = await axios.post(`${process.env.REACT_APP_API}/team/new`, { teamName: teamname, userid: id, username: user.name });
       if (resp.data.success) {
         toast.success('New Team Created');
@@ -64,7 +65,6 @@ const Home = () => {
                   <h2>{t.teamName}</h2>
                   <p className='m-0'>created by {t.username}</p>
                 </div>
-
               )}
             </div>
           </div>

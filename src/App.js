@@ -15,6 +15,8 @@ import Forum from './Pages/Forum';
 import Library from './Pages/Library';
 import Profile from './Pages/Profile';
 import Collaboration from './Pages/Collaboration';
+import Signup from './Pages/Signup';
+import Chat from './Pages/Chat';
 
 
 
@@ -38,7 +40,8 @@ function App() {
         <Route path='/forums' element={<Forum />} />
         <Route path='/library' element={<Library />} />
         <Route path='/profile' element={<Profile />} />
-
+        <Route path='/register' element={<Signup />} />
+        <Route path='/chat' element={<Chat />} />
         <Route path='/collaboration' element={<Collaboration />} />
         {/* <Route path='/test' element={<>Test Page</>} /> */}
 
