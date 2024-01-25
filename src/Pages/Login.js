@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast';
 import axios from 'axios'
 
-import { GoogleLogin } from 'react-google-login';
+// import { GoogleLogin } from 'react-google-login';
 const clientId = "578918890169-fo553e5vpc8aviachelgihf03foerm6n.apps.googleusercontent.com"
 
 
@@ -27,7 +27,6 @@ const Login = () => {
             toast.error('Something went wrong');
         }
         navigate('/dashboard')
-
     }
     const onFailure = (res) => {
         console.log('Login failed: res:', res);
@@ -36,14 +35,7 @@ const Login = () => {
     return (
 
         <div id="signInButton">
-            <GoogleLogin
-                clientId={clientId}
-                buttonText="Login with Google"
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={true}
-            />
+            <button className='btn btn-primary' onClick={() => navigate('/profile')}>Login with Google</button>
         </div>
     )
 }

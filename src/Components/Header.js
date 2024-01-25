@@ -6,8 +6,6 @@ const Header = () => {
 
     const [active, setActive] = useState()
 
-
-
     return (
         <nav id="sidebarMenu" className="collapse d-lg-block back">
             <div className="position-sticky back">
