@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Layout from './Layout'
 import './pages.css'
 import { Modal } from 'antd';
@@ -38,6 +38,35 @@ const Collaboration = () => {
         }
     }
 
+
+
+    const fileInputRef = useRef(null);
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+        uploadFile(e.target.files[0]);
+    };
+
+    const uploadFile = (selectedFile) => {
+        if (selectedFile) {
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            axios.post('http://localhost:5000/api/upload/res/', formData)
+                .then(response => {
+                    console.log(response.data);
+                    alert("File uploaded successfully");
+                    setFile(null);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            console.warn('Please select a file before uploading.');
+        }
+    };
+
     const getWorks = async () => {
         try {
             console.log(`${process.env.REACT_APP_API}/team/get`)
@@ -49,17 +78,20 @@ const Collaboration = () => {
     }
 
     useEffect(() => {
+
+
         function start() {
             gapi.client.init({
                 apikey: API_KEY,
                 clientId: clientId,
-                scope: SCOPES,
+                scope: SCOPES.join(' '),
                 discoveryDocs: DISCOVERY_DOCS,
             })
         }
-        gapi.load('client:auth2', start);
+        gapi.load('client:auth2', start)
         getTeam();
-        getWorks()
+        getWorks();
+
     }, [])
 
     const sort = (e) => {
@@ -71,7 +103,8 @@ const Collaboration = () => {
         } else if (icon == 2) {
             createSheet()
         } else if (icon == 3) {
-            createMeet()
+            // createMeet()
+            createInstantMeeting()
         }
         else if (icon == 4) {
             createJamboard()
@@ -82,8 +115,7 @@ const Collaboration = () => {
         else if (icon == 6) {
             createResource()
         }
-        setVisible(false);
-
+        setVisible(false)
     }
 
     const createDocs = () => {
@@ -93,18 +125,21 @@ const Collaboration = () => {
             headers: new Headers({
                 'Authorization': 'Bearer ' + accessToken,
             })
-        }).then((response) => {
-            return response.json()
-        }).then((data) => {
-            console.log(data)
-            console.log(data.documentId)
-            setPermissions(data.documentId)
-            postWork('https://docs.google.com/document/d/' + data.documentId + '/edit')
-            getWorks()
-            window.open('https://docs.google.com/document/d/' + data.documentId + '/edit', '_blank')
-            onSuccessDocs(data.documentId)
         })
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data)
+                console.log(data.documentId)
+                setPermissions(data.documentId)
+                window.open('https://docs.google.com/document/d/' + data.documentId + '/edit', '_blank')
+                onSuccessDocs(data.documentId)
+
+            })
             .catch((error) => console.log(error))
+
+
     }
 
     const postWork = async (url) => {
@@ -114,7 +149,8 @@ const Collaboration = () => {
             const user = JSON.parse(localStorage.getItem('user'))
             let resp = await axios.post(`${process.env.REACT_APP_API}/work/new`, { team: auth, url: url, username: user.name, filename: filename });
             if (resp.data.success) {
-                toast.success('New Team Created');
+                toast.success('New File Created');
+                getWorks()
             }
         } catch (error) {
             console.log(error);
@@ -150,23 +186,113 @@ const Collaboration = () => {
         }
     }
     const createSheet = () => {
-        alert("Creating Sheets")
+        fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${gapi.auth.getToken().access_token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                properties: {
+                    title: filename,
+                },
+            }),
+        })
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data.spreadsheetId)
+                setPermissions(data.spreadsheetId)
+                window.open('https://docs.google.com/spreadsheets/d/' + data.spreadsheetId + '/edit#gid=0', '_blank')
+                onSuccessDocs(data.spreadsheetId)
+            })
 
     }
-    const createMeet = () => {
-        alert("Creating meet")
+    const createInstantMeeting = async () => {
+        const calendarId = 'primary'; // Use 'primary' for the primary calendar
+        const event = {
+            summary: filename,
+            start: {
+                dateTime: new Date().toISOString(),
+                timeZone: 'UTC',
+            },
+            end: {
+                dateTime: new Date(new Date().getTime() + 30 * 60000).toISOString(), // 30 minutes meeting
+                timeZone: 'UTC',
+            },
+            conferenceData: {
+                createRequest: {
+                    requestId: `${Date.now()}_${Math.random().toString(36).substring(2)}`,
+                    conferenceSolutionKey: {
+                        type: 'hangoutsMeet',
+                    },
+                },
+            },
+        };
 
-    }
-    const createJamboard = () => {
-        alert("Creating jamboard")
+        const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${gapi.auth.getToken().access_token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(event),
+        });
 
+        const result = await response.json();
+        console.log(result);
+        gapi.client.calendar.events.patch({
+            calendarId: "primary",
+            eventId: result.id,
+            resource: event,
+            sendNotifications: true,
+            conferenceDataVersion: 1
+        }).execute(function (event) {
+            console.log("Conference created for event: %s", event.htmlLink);
+        });
+    };
+    function createJamboard() {
+        window.open(`https://jamboard.google.com/u/0/create?title=${filename}`, '_blank');
     }
-    const createSlides = () => {
+    const createSlides = async () => {
+        try {
+            const response = await fetch(`https://slides.googleapis.com/v1/presentations?title=${filename}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${gapi.auth.getToken().access_token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: 'New Google Slides Presentation',
+                })
+            });
 
-    }
+            if (!response.ok) {
+                throw new Error(`Failed to create presentation. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            console.log('Presentation created:', data.presentationId);
+
+            // Optionally, set permissions for the new presentation
+            setPermissions(data.presentationId);
+
+            // Open the new presentation in a new tab
+            window.open(`https://docs.google.com/presentation/d/${data.presentationId}/edit`, '_blank');
+
+            // Call your onSuccess function with the presentation ID
+            onSuccessDocs(data.presentationId);
+        } catch (error) {
+            console.error('Error creating Google Slides presentation:', error);
+        }
+    };
+
     const createResource = () => {
-
+        fileInputRef.current.click();
     }
+
 
     return (
         <>
@@ -190,17 +316,20 @@ const Collaboration = () => {
                             {
                                 works?.map(w =>
                                     <li class="list-group-item myflex" style={{ justifyContent: 'space-between' }}>
-
                                         <h6 className='m-2'>{w?.fileName}</h6>
                                         <span>Created by : {w?.username}</span>
-
-                                        <a href={w?.url}>visit</a>
-
+                                        <a className='btn btn-primary' href={w?.url} target='_blank'>visit</a>
                                     </li>
                                 )
                             }
 
                         </ul>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
                     </div>
                     <div className='chat-wrap m-4'>
                         <h5>Chat</h5>

@@ -35,6 +35,7 @@ const Login = () => {
     return (
 
         <div id="signInButton">
+            <h3 className='my-3'>Colab Learn</h3>
             <button className='btn btn-primary' onClick={() => navigate('/profile')}>Login with Google</button>
         </div>
     )
