@@ -51,7 +51,7 @@ const Landing = () => {
     return (
         // <Layout>
         <div className='form-container' style={{ backgroundColor: 'gray' }}>
-            <div className='container box'>
+            <div className='container box' style={{ width: '45%' }}>
                 <h1 className='mx-3'>Login</h1>
                 <form onSubmit={() => { }}>
                     <div className="row m-4">

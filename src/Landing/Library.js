@@ -38,7 +38,7 @@ export default function Library() {
             const formData = new FormData();
             formData.append('file', selectedFile);
 
-            axios.post('http://localhost:5000/api/upload/library/', formData)
+            axios.post(`${REACT_APP_API}/api/upload/library/`, formData)
                 .then(response => {
                     console.log(response.data);
                     alert("File uploaded successfully");

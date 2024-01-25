@@ -1,0 +1,31 @@
+.myflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab {
+    height: fit-content;
+    flex-direction: column;
+    background-color: aquamarine;
+}
+
+.window {
+    border: 10px solid aquamarine;
+    height: 90vh;
+    width: 120vh;
+    border-radius: 10px;
+}
+
+.tab span {
+    border: 1px solild gray;
+    background-color: white;
+    border-radius: 10px;
+}
+.todo-list {
+    background-color: #cce5ff; /* Pastel blue background color */
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.007); /* Optional: Add a subtle box shadow */
+  }

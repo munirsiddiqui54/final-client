@@ -17,6 +17,7 @@ import Profile from './Pages/Profile';
 import Collaboration from './Pages/Collaboration';
 import Signup from './Pages/Signup';
 import Chat from './Pages/Chat';
+import LandingPage from './Landing/LandingPage';
 
 
 
@@ -34,7 +35,7 @@ function App() {
       />
 
       <Routes>
-        <Route path='/' element={<Entry />} />
+        <Route path='/log' element={<Entry />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/teams' element={<Teams />} />
         <Route path='/forums' element={<Forum />} />
@@ -46,7 +47,7 @@ function App() {
         {/* <Route path='/test' element={<>Test Page</>} /> */}
 
 
-        {/* <Route path='/home' element={<Home />} /> */}
+        <Route path='/' element={<LandingPage />} />
 
       </Routes>
 

@@ -38,7 +38,7 @@ const Nav = () => {
                         </div>
                     </a>
                     <div className='d-flex'>
-                        <button className='btn btn-danger mx-2'>Screen Cast</button>
+                        {/* <button className='btn btn-danger mx-2'>Screen Cast</button> */}
 
                         <button className='btn btn-primary ' onClick={(e) => handlechat(e)}>Chat</button>
 

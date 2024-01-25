@@ -75,8 +75,8 @@ const Signup = () => {
 
     return (
         // <Layout>
-        <div className='form-container' style={{ backgroundColor: 'gray' }}>
-            <div className='container box'>
+        <div className='form-container' style={{ backgroundColor: 'gray' }} >
+            <div className='container box' style={{ width: '45%' }}>
                 <h1 className='mx-3'>Signup</h1>
                 <form onSubmit={() => { }}>
                     <div className="row m-4">
@@ -87,7 +87,7 @@ const Signup = () => {
                     <button type="submit" onClick={handleregister} className="btn px-3 btn-primary btn-block mb-4">Register</button>
                 </form>
                 <div className="text-center">
-                    <p>Already have an account ? <Link to='/' href="#!">Login</Link></p>
+                    <p>Already have an account ? <Link to='/log' href="#!">Login</Link></p>
 
                 </div>
             </div >
